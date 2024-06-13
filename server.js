@@ -18,6 +18,7 @@ app.listen(process.env.PORT || 4000, function(){
 })
 
 const mongoose = require("mongoose")
+const UserSchema = require('./model/user.model');
 
 mongoose.connect(process.env.DB_URL,{
   useNewUrlParser:true,
