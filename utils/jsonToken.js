@@ -9,8 +9,8 @@ const generateToken = async (res,user)=>{
   })
   await res.cookie('jwt',token, {
     httpOnly:true,
-    secure: process.env.NODE !== 'development', // use secure cookies in production
-    sameSite:'strict', // prevent attacker to hacks user's activity based on authenticated session cookie
+    secure: process.env.NODE !== 'development', // hide cookies in production 
+    sameSite:'strict', // prevent attacker to hacks user's activity when user come from different origin.
     maxAge: 30*24*60*60*1000 // expires in 30 days.
   })
   
