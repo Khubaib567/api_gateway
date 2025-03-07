@@ -1,30 +1,31 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const UserSchema = mongoose.Schema({
-  userId: {type: Number,unique:true,default:0},
-  name: {
-    type: String,
-    required:[true,'must provide your name!']
+const userSchema = new Schema({
+  userId: {
+    type:Number,
+    unique:[true,'id must be unique!'],
+    default:0
+  },
+  name:{
+    type:String,
+    required:[true,'Name must be required!']
   },
   email: {
-    type: String,
-    required: [true,'must provide email!'],
-    unique: [true,'email must be unique!'],
-    match: [
-      /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/,
-      "Please enter a valid email address",
-    ],
+    type:String,
+    required:[true,'Email must be required!'],
+    unique:[true,'Email must be unique!'],
+    match:[
+        /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+        'Please provide a valid email pattern!'
+    ]
   },
   password:{
-   type:String,
-   required: [true,'must provide password!'], 
-  },
-  age: {
-    type: Number
-  },
-  phoneNo: {
-    type: String,
+    type:String,
+    required:[true,'Password must be required!']
   }
+  
 });
 
-module.exports = mongoose.model("user", UserSchema);
+
+mongoose.exports = mongoose.model("user",userSchema)

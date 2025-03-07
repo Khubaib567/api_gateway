@@ -2,57 +2,32 @@ const User = require('../model/user.model')
 
 //create user
 const createUser = (async(req,res)=>{
-    let object = req.body
+  const { name, email, password } = req.body;
 
-    if (!object) {
-      res.status(400).send({
-        message: "Content can not be empty!"
-      });
-      return;
-    }else if (!object.email) {
-      res.status(400).send({
-        status: 0,
-        message: "Email is required.",
-      });
-    }else if (!req.body.password) {
-      res.status(400).send({
-        status: 0,
-        message: "Password is required.",
-      });
-    }else{
-      const user = await User.find({ email: req.body.email });
-      if (user.length >= 1) {
-      res.status(400).send({
-        status: 0,
-        message: "Email already exists!",
-      });
-      }else{
-        var final_id = object.userId
-        final_id = final_id === undefined ? 0 : undefined
-        // Add auto increment to the user id.
-        User.count().then( (count) => {
-          return count
-        }).then(async(data)=>{
-          final_id = data + 1 
-    
-          //  save the user into db
-          let user = {
-            userId: final_id,
-            name: req.body.name,
-            email:req.body.email,
-            password:req.body.password,
-            age: req.body.age,
-            phoneNo:req.body.phoneNo
-          };
-          // console.log(user)
-          await User.create(user)
-            .then(async(result)=>{
-              await res.status(201).json({ user })
-            }).catch(async(err)=>{
-              await res.status(400).json({ err })      
-            })
-        })
-      }
+  const userExists = await User.findOne({ email });
+
+  if (userExists) {
+    res.status(400);
+    throw new Error('User already exists');
+  }
+
+  const user = await User.create({
+    name,
+    email,
+    password,
+  });
+
+  if (user) { // returns true
+    // generateToken(res, user._id);
+
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(400);
+    throw new Error('Invalid user data');
   }
 
 })

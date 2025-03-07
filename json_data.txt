@@ -1,8 +1,0 @@
-{
-   "name":"Khubaib",
-   "email":"abc@gmail.com",
-   "age":20,
-   "phoneNo":"03XXXXXX"
-}
-
-

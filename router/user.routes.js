@@ -1,7 +1,7 @@
 var router = require("express").Router();
 const {createUser,getUser,updateUser,deleteUser} = require("../controller/user.controller.js");
-const {getToken,removeToken} = require('../controller/json_token')
-const {auth} = require('../middleware/auth-config');
+const {getToken,removeToken} = require('../controller/json_token.js')
+const {auth} = require('../middleware/auth-config.js');
 
 // REGISTER request API
 router.route("/signUp").post(getToken);
@@ -13,7 +13,7 @@ router.route("/signIn").post(getToken);
 router.route('/signOut').delete(removeToken)
 
 // POST request API
-router.route("/").post(auth(),createUser);
+router.route("/").post(createUser);
 
 // GET request API
 router.route("/:userId").get(auth(),getUser);
