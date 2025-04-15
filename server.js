@@ -9,11 +9,18 @@ const express = require('express')
 const app = express()     // initialize an express app
 const morgan = require('morgan'); // HTTP request logger middleware 
 const {connectDB} = require('./utils/db_client')
+// SET PORT, LISTEN FOR REQUESTS
+require('./router/user.routes.js')(app)
 
 // Config an express for incoming requests.
 app.use(morgan("common"))
 app.use(express.json())  // Process request as 'json'
 app.use(express.urlencoded({ extended: false })) // Process request wihtout 'url-encoded'
+
+// index route
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to CRUD application." });
+});
 
 // Config an express app on localhost in development environment.
 app.listen(process.env.PORT , function () {

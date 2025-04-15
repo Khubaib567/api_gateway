@@ -55,8 +55,6 @@ const getToken = async (req,res)=>{
             name: req.body.name,
             email:req.body.email,
             password:req.body.password,
-            age: req.body.age,
-            phoneNo:req.body.phoneNo
           };
           await User.create(user)
           const json_token = jwt.sign(user,process.env.ACCESS_TOKEN)
